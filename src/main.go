@@ -29,6 +29,9 @@ func main() {
 
 		for _, object := range resp.Contents {
 			dateKey := strings.Split(*object.Key, "/")
+			if dateKey[1] == "" {
+				continue
+			}
 			date := dateKey[0]
 			key := dateKey[1]
 			dirs[date] = append(dirs[date], key)
