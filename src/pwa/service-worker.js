@@ -1,5 +1,12 @@
 // service-worker.js
 
+self.addEventListener('visibilitychange', function () {
+    if (document.visibilityState === 'visible') {
+        console.log('APP resumed');
+        window.location.reload();
+    }
+});
+
 self.addEventListener('install', function (event) {
     event.waitUntil(
         caches.open('my-cache').then(function (cache) {
