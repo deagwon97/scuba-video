@@ -1,5 +1,5 @@
 FROM golang:latest AS builder
-COPY ./src /workdir/src
+
 ENV GO111MODULE=on \
     CGO_ENABLED=0 \
     GOOS=linux \
@@ -14,6 +14,7 @@ RUN go install -v github.com/josharian/impl@v1.1.0
 RUN go install -v github.com/haya14busa/goplay/cmd/goplay@v1.0.0
 RUN echo "export PATH=$PATH:/usr/local/go/bin" >> ~/.bashrc
 
+COPY ./src /workdir/src
 
 WORKDIR /workdir/src
 RUN go mod tidy
