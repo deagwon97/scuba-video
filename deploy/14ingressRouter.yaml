@@ -1,0 +1,35 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: ingressroute-scuba-video-redirect
+  namespace: scuba-video
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`video.scuba.deagwon.com`)
+      kind: Rule
+      services:
+        - name: scuba-video
+          port: 80
+      middlewares:
+        - name: redirectscheme
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: ingressroute-scuba-video
+  namespace: scuba-video
+  annotations:
+    cert-manager.io/issuer: scuba-video-issuer
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`video.scuba.deagwon.com`)
+      kind: Rule
+      services:
+        - name: scuba-video
+          port: 80
+  tls:
+    secretName: scuba-video-crt-secret

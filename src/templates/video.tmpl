@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>scuba 다시보기</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            /*  Background fallback in case of IE8 & down, or in case video doens't load, such as with slower connections  */
+            background: black;
+        }
+        div {
+            display: flex;
+            height: 100vh;
+        }
+        video {
+            max-width: 100vw;
+            max-height: 100vh;
+            display: flex;
+            object-fit: fill;
+            margin: auto auto ;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <video controls >
+            <source src="https://file.minio.deagwon.com/{{ .Path }}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    <div>
+</body>
+</html>
+

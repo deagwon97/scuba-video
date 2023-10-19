@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: scuba-video
+  name: scuba-video
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: scuba-video
+  template:
+    metadata:
+      labels:
+        app: scuba-video
+    spec:
+      containers:
+      - name: scuba-video
+        image: harbor.deagwon.com/scuba-video/scuba-video:latest
+        imagePullPolicy: Always
+        ports:
+          - name: web
+            containerPort: 80
+        envFrom:
+            - secretRef:
+                name: scuba-video
+      serviceAccountName: scuba-video-regcred 
+      imagePullSecrets:
+        - name: scuba-video-regcred 

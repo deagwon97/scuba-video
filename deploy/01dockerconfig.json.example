@@ -1,0 +1,10 @@
+{
+    "auths": {
+        "https://harbor.deagwon.com": {
+            "username": "",
+            "password": "",
+            "email": "",
+            "auths": "$username:$password | base64"
+        }
+    }
+}

@@ -1,0 +1,14 @@
+version: "3.7"
+
+services:
+  scuba-video:
+    build:
+      context: ../
+      dockerfile: ./Dockerfile
+      target: builder
+    volumes:
+      - ../:/workdir
+    env_file:
+      - ../deploy/01go.env
+    stdin_open: true
+    tty: true
