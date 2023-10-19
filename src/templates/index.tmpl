@@ -63,7 +63,7 @@
                     <strong>{{ $date }}</strong>
                     <ul>
                         {{range $j, $file := $dir}}
-                            <a href="/video?object=scuba/{{ $date }}/{{ $file }}">
+                            <a href="/video?object={{ $date }}/{{ $file }}">
                                 <li>
                                     {{ $file }}
                                 </li>

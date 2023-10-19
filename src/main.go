@@ -1,38 +1,34 @@
 package main
 
 import (
-	"context"
 	"fmt"
 	"net/http"
 	"strings"
 
 	"scuba-video/file"
 
+	"github.com/aws/aws-sdk-go/aws"
+	"github.com/aws/aws-sdk-go/service/s3"
 	"github.com/gin-gonic/gin"
-	minio "github.com/minio/minio-go/v7"
 )
 
 func main() {
 	r := gin.Default()
 
 	r.GET("/", func(c *gin.Context) {
-		minioClient, err := file.NewMinioClient()
+		svc, err := file.NewS3Service()
 		if err != nil {
 			fmt.Println(err)
-			return
 		}
-		opts := minio.ListObjectsOptions{
-			Recursive: true,
+		bucket := "scuba-basketball"
+		resp, err := svc.ListObjectsV2(&s3.ListObjectsV2Input{Bucket: aws.String(bucket)})
+		if err != nil {
+			fmt.Println(err)
 		}
-		objects := minioClient.ListObjects(context.Background(), "scuba", opts)
 		dirs := map[string][]string{}
 
-		for object := range objects {
-			if object.Err != nil {
-				fmt.Println(object.Err)
-				return
-			}
-			dateKey := strings.Split(object.Key, "/")
+		for _, object := range resp.Contents {
+			dateKey := strings.Split(*object.Key, "/")
 			date := dateKey[0]
 			key := dateKey[1]
 			dirs[date] = append(dirs[date], key)

@@ -1,26 +1,20 @@
 package file
 
 import (
-	"fmt"
-	"os"
+	"log"
 
-	minio "github.com/minio/minio-go/v7"
-	"github.com/minio/minio-go/v7/pkg/credentials"
+	"github.com/aws/aws-sdk-go/aws"
+	"github.com/aws/aws-sdk-go/aws/session"
+	"github.com/aws/aws-sdk-go/service/s3"
 )
 
-func NewMinioClient() (minioClient *minio.Client, err error) {
-	endpoint := os.Getenv("MINIO_ENDPOINT")
-	accessKeyID := os.Getenv("ACCESS_KEY_ID")
-	secretAccessKey := os.Getenv("SECRET_ACCESS_KEY")
-	useSSL := true
-
-	minioClient, err = minio.New(endpoint, &minio.Options{
-		Creds:  credentials.NewStaticV4(accessKeyID, secretAccessKey, ""),
-		Secure: useSSL,
+func NewS3Service() (svc *s3.S3, err error) {
+	sess, err := session.NewSession(&aws.Config{
+		Region: aws.String("ap-northeast-1"),
 	})
 	if err != nil {
-		fmt.Println(err)
-		return
+		log.Fatalf("Failed to create session: %s", err)
 	}
+	svc = s3.New(sess)
 	return
 }

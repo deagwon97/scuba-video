@@ -17,7 +17,7 @@
             max-width: 100vw;
             max-height: 100vh;
             display: flex;
-            object-fit: fill;
+            object-fit: contain;
             margin: auto auto ;
         }
     </style>
@@ -25,7 +25,7 @@
 <body>
     <div>
         <video controls >
-            <source src="https://file.minio.deagwon.com/{{ .Path }}" type="video/mp4">
+            <source src="https://scuba-basketball.s3.ap-northeast-1.amazonaws.com/{{ .Path }}" type="video/mp4">
             Your browser does not support the video tag.
         </video>
     <div>
