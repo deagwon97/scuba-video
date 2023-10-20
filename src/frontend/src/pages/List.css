@@ -1,0 +1,121 @@
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background-color: #f2f2f7;
+    margin: 0;
+    padding: 0;
+}
+
+.upload-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 15px; 
+    margin: 5px 0 5px 0;
+    background-color: #ffffff;  /* Lighter background color */
+    border-radius: 15px;  /* More rounded */
+    padding: 10px;
+    gap: 10px;
+}
+
+.plus-button {
+    display: flex;
+    margin: 10px auto 10px auto;
+    background-color: #007AFF;  /* iOS blue color */
+    margin-left: auto;
+    color: white;
+    border: none;
+    border-radius: 15px;  /* More rounded */
+    cursor: pointer;
+    transition: background-color 0.3s ease;  /* Smooth color transition */
+    font-size: 20px;  /* Larger font size for the plus symbol */
+    text-align: center;  /* Centers the "+" symbol */
+}
+
+.plus-button:hover {
+    background-color: #005BC2;  /* Darker hover effect */
+}
+
+.input-container input[type="text"] {
+    width: 100%;  
+    padding: 4px 4px;
+    border: 1px solid #d1d1d1; 
+    transition: background-color 0.3s ease, border-color 0.3s ease; 
+    outline: none;  
+}
+
+.input-container input[type="text"]:hover {
+    background-color: #e6e6e6;  
+}
+
+.input-container input[type="text"]:focus {
+    border-color: #007AFF; 
+    background-color: #e6e6e6;  
+}
+
+.files-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .custom-file-upload {
+    border: 1px solid #d1d1d1;  /* More subtle border color */
+    display: inline-block;
+    padding: 8px 16px;  /* Increased padding slightly */
+    cursor: pointer;
+    background-color: #f1f1f1;  /* Lighter background */
+    border-radius: 15px;  /* More rounded */
+    transition: background-color 0.3s ease;  /* Slower transition for subtlety */
+  }
+  
+  .custom-file-upload:hover {
+    background-color: #e6e6e6;  /* Slightly darker hover effect */
+  }
+  
+  #file-upload {
+    display: none;
+  }
+  
+  .upload-button {
+    padding: 8px 16px;  /* Increased padding slightly */
+    background-color: #007AFF;  /* iOS blue color */
+    color: white;
+    border: none;
+    border-radius: 15px;  /* More rounded */
+    cursor: pointer;
+    transition: background-color 0.3s ease;  /* Slower transition */
+  }
+  
+  .upload-button:hover {
+    background-color: #005BC2;  /* Darker hover effect */
+  }
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+li {
+    background-color: #ffffff;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+}
+
+a {
+    text-decoration: none;
+    color: #007AFF; /* iOS의 링크 블루 컬러 */
+    transition: background-color 0.3s;
+}
+
+a:hover {
+    background-color: #e5e5e5;
+}
+
+.container {
+    margin: 20px;
+    padding: 10px;
+    background-color: #f2f2f7;
+}
