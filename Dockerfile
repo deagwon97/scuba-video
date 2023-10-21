@@ -22,17 +22,17 @@ RUN apt-get update -y &&\
 
 COPY ./src /workdir/src
 
-WORKDIR /workdir/src
-RUN go mod tidy
-RUN go build -o main ./
-
-WORKDIR /workdir/src
+WORKDIR /workdir/src/frontend
 RUN yarn install
 RUN yarn build
 
-# # FROM scratch AS production
-# WORKDIR /root
-# COPY --from=builder /workdir/src/main /root/main
-# COPY --from=builder /workdir/src/frontend/build /root/frontend/build
-# COPY --from=builder /etc/ssl/certs /etc/ssl/certs
-# ENTRYPOINT ["./main"]
+WORKDIR /workdir/src
+RUN go mod tidy
+RUN go build -buildvcs=false -o main ./
+
+FROM scratch AS production
+WORKDIR /root
+COPY --from=builder /workdir/src/main /root/main
+COPY --from=builder /workdir/src/frontend/build /root/frontend/build
+COPY --from=builder /etc/ssl/certs /etc/ssl/certs
+ENTRYPOINT ["./main"]

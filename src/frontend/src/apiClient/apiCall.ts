@@ -15,12 +15,12 @@ type Data = {
     secret: string
 }
 
-export const onLostPutVideosPresignedUrl: (uploadSecret: string, objectKey: string) => Promise<string> = async (uploadSecret: string, objectKey: string) => {
+export const onLostPutVideosPresignedUrl: (uploadSecret: string, fileType: string, objectKey: string) => Promise<string> = async (uploadSecret: string, fileType: string, objectKey: string) => {
     const secret: Data = {
         secret: uploadSecret
     };
 
-    const result = await axios.post(`/api/presinged?objectKey=${objectKey}`,
+    const result = await axios.post(`/api/presinged?objectKey=${objectKey}&fileType=${fileType}`,
         secret
     )
     const presignedUrl = result.data.url as string

@@ -5,9 +5,6 @@ import (
 	"net/http"
 	"os"
 	"scuba-video/file"
-	"scuba-video/model"
-	"sort"
-	"strings"
 	"time"
 
 	"github.com/aws/aws-sdk-go/aws"
@@ -54,10 +51,12 @@ func Run(address string) error {
 		}
 		bucket := "scuba-basketball"
 		objectKey := c.Query("objectKey")
+		fileType := c.Query("fileType")
 
 		req, _ := svc.PutObjectRequest(&s3.PutObjectInput{
-			Bucket: aws.String(bucket),
-			Key:    aws.String(objectKey),
+			Bucket:      aws.String(bucket),
+			Key:         aws.String(objectKey),
+			ContentType: aws.String(fileType),
 		})
 		if err != nil {
 			fmt.Println(err)
@@ -75,44 +74,5 @@ func Run(address string) error {
 		c.JSON(http.StatusOK, data)
 	})
 
-	api.GET("/list", func(c *gin.Context) {
-		svc, err := file.NewS3Service()
-		if err != nil {
-			fmt.Println(err)
-		}
-		bucket := "scuba-basketball"
-		resp, err := svc.ListObjectsV2(&s3.ListObjectsV2Input{Bucket: aws.String(bucket)})
-		if err != nil {
-			fmt.Println(err)
-		}
-		dirs := map[string][]string{}
-
-		for _, object := range resp.Contents {
-			dateKey := strings.Split(*object.Key, "/")
-			if dateKey[1] == "" {
-				continue
-			}
-			date := dateKey[0]
-			key := dateKey[1]
-			dirs[date] = append(dirs[date], key)
-		}
-		dirsSlice := []string{}
-		for date := range dirs {
-			dirsSlice = append(dirsSlice, date)
-		}
-		sort.Sort(sort.Reverse(sort.StringSlice(dirsSlice)))
-		dirVideosList := []model.DirVideos{}
-		for _, date := range dirsSlice {
-			dirVideos := model.DirVideos{Dir: date, Videos: dirs[date]}
-			dirVideosList = append(dirVideosList, dirVideos)
-		}
-		if err != nil {
-			return
-		}
-		data := gin.H{
-			"result": dirVideosList,
-		}
-		c.JSON(http.StatusOK, data)
-	})
 	return r.Run(address)
 }
