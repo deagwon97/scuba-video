@@ -1,6 +1,7 @@
 01go.env
 01dockerconfig.json
-
+main
+scuba-video
 bin
 go
 pkg
