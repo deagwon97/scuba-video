@@ -1,8 +1,11 @@
 import axios, { AxiosProgressEvent } from "axios";
-import React, { useEffect } from "react";
+import React from "react";
 import {onLoadVideoList, onLostPutVideosPresignedUrl} from "../apiClient/apiCall";
 import {DirVideos} from "../apiClient/apiCall";
+import { Link } from "react-router-dom";
 import "./List.css"
+
+axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest'
 
 const FileUpload: React.FC = () => {
     const [file, setFile]  = React.useState<File | null>(null);
@@ -21,16 +24,19 @@ const FileUpload: React.FC = () => {
       e.preventDefault();
   
       if (!file) return;
+      const fileType = file.type
   
-      const formData = new FormData();
-      formData.append('file', file);
+      // const formData = new FormData();
+      // formData.append('file', file);
   
       try {
         const objectKey = `${directoryName}/${file.name}`;
-        const url = await onLostPutVideosPresignedUrl(uploadSecret, objectKey);
-        await axios.put(url, formData, {
+        console.log(fileType);
+        const url = await onLostPutVideosPresignedUrl(uploadSecret, fileType, objectKey);
+        
+        await axios.put(url, file, {
           headers: {
-            "Content-Type": undefined
+            "Content-Type": fileType
           },
           onUploadProgress: (progressEvent: AxiosProgressEvent) => {
             const { loaded, total } = progressEvent;
@@ -93,10 +99,12 @@ const FileUpload: React.FC = () => {
                         )}
                     </div>
                     <button className="upload-button" onClick={onSubmit}>Upload</button>
-                    <div>
+                    <div className="progress-box">
                       <progress value={uploadPercentage} max="100" />
-                      {uploadPercentage}% 
-                  </div>
+                    </div>
+                    <div className="progress-percent">
+                      {uploadPercentage}{' '}% 
+                    </div>
                 </div>
             )}
         </>
@@ -123,9 +131,9 @@ export const VideoList = () => {
                       <strong>{dirVideos.dir}</strong>
                       <ul>
                           {dirVideos.videos.map(video => (
-                              <a key={video} href={`/video?object=${dirVideos.dir}/${video}`}>
+                              <Link key={video} to={`/video?object=${dirVideos.dir}/${video}`}>
                                   <li>{video}</li>
-                              </a>
+                              </Link>
                           ))}
                       </ul>
                   </li>
