@@ -7,7 +7,7 @@ export type DirVideos = {
 }
 
 export const onLoadVideoList: () => Promise<DirVideos[]> = async () => {
-    const result = await axios.get('http://localhost:8000/api/list')
+    const result = await axios.get('/api/list')
     const videoList = result.data.result as DirVideos[]
     return videoList
 }
@@ -15,14 +15,14 @@ type Data = {
     secret: string
 }
 
-export const onLostPutVideosPresignedUrl: (objectKey: string) => Promise<string> = async (objectKey: string) => {
+export const onLostPutVideosPresignedUrl: (uploadSecret: string, objectKey: string) => Promise<string> = async (uploadSecret: string, objectKey: string) => {
     const secret: Data = {
-        secret: 'scuba'
+        secret: uploadSecret
     };
 
-    const result = await axios.post(`http://localhost:8000/api/presingedUrl?objectKey=${objectKey}`,
+    const result = await axios.post(`/api/presinged?objectKey=${objectKey}`,
         secret
     )
-    const presignedUrl = result.data.result as string
+    const presignedUrl = result.data.url as string
     return presignedUrl
 }

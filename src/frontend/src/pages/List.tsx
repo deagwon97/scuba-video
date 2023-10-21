@@ -1,56 +1,59 @@
+import axios, { AxiosProgressEvent } from "axios";
 import React, { useEffect } from "react";
 import {onLoadVideoList, onLostPutVideosPresignedUrl} from "../apiClient/apiCall";
 import {DirVideos} from "../apiClient/apiCall";
 import "./List.css"
 
 const FileUpload: React.FC = () => {
-    const [selectedFiles, setSelectedFiles] = React.useState<FileList | null>(null);
+    const [file, setFile]  = React.useState<File | null>(null);
     const [directoryName, setDirectoryName] = React.useState<string>('');
     const [activateButton, setActivateButton] = React.useState<boolean>(false);
-  
-    const onFilesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const [uploadPercentage, setUploadPercentage] = React.useState<number>(0);
+ 
+    const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       if (e.target.files) {
-        setSelectedFiles(e.target.files);
-        console.log(e.target.files);
+        setFile(e.target.files[0]);
+        setUploadPercentage(0);
       }
     };
 
-    const putVideosPresignedUrl = React.useCallback(async () => {
-        console.log( await onLostPutVideosPresignedUrl("hi"))
-    },[])
-    React.useEffect(() => {
-        putVideosPresignedUrl();
-    }, [])
-    const onDirectoryNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setDirectoryName(e.target.value);
-      };
+    const onSubmit = async (e: React.FormEvent) => {
+      e.preventDefault();
   
-    const onUpload = async () => {
-      if (!selectedFiles) return;
+      if (!file) return;
   
       const formData = new FormData();
-  
-      Array.from(selectedFiles).forEach((file, index) => {
-        formData.append(`file${index + 1}`, file);
-      });
-      if (directoryName) {
-        formData.append('directoryName', directoryName);
-      }
+      formData.append('file', file);
   
       try {
-        const response = await fetch('YOUR_API_ENDPOINT', {
-          method: 'PUT',
-          body: formData,
+        const objectKey = `${directoryName}/${file.name}`;
+        const url = await onLostPutVideosPresignedUrl(uploadSecret, objectKey);
+        await axios.put(url, formData, {
+          headers: {
+            "Content-Type": undefined
+          },
+          onUploadProgress: (progressEvent: AxiosProgressEvent) => {
+            const { loaded, total } = progressEvent;
+            let percent = Math.floor((loaded * 100) / (total as number));
+            setUploadPercentage(percent);
+            if (percent === 100) {
+              setTimeout(() => setUploadPercentage(0), 1000);
+              window.location.reload();
+            }
+          },
         });
-  
-        if (response.ok) {
-          console.log('Files uploaded successfully.');
-        } else {
-          console.error('File upload failed:', response.statusText);
-        }
       } catch (error) {
-        console.error('There was an error uploading the files:', error);
+        console.error("There was an error uploading the file", error);
       }
+    };
+
+    const onDirectoryNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setDirectoryName(e.target.value);
+    };
+
+    const [uploadSecret, setUploadSecret] = React.useState<string>('');
+    const onUploadSecretChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setUploadSecret(e.target.value);
     };
   
     return (
@@ -70,24 +73,30 @@ const FileUpload: React.FC = () => {
                                 onChange={onDirectoryNameChange} />
                     </div>
                     <div className="files-container">
+                        <h4>암호: </h4>
+                        <input type="password" 
+                                placeholder="Enter password" 
+                                value={uploadSecret}
+                                onChange={onUploadSecretChange} />
+                    </div>
+                    <div className="files-container">
                         <label htmlFor="file-upload" className="custom-file-upload">
-                        Choose Files
+                        파일 선택
                         </label>
-                        <input id="file-upload" type="file" multiple onChange={onFilesChange} />
+                        <input id="file-upload" type="file" onChange={onChange} />
                     </div>
                     <div>
-                        {selectedFiles && (
+                        {file && (
                             <div>
-                            <h4>Files to upload:</h4>
-                            <ul>
-                                {Array.from(selectedFiles).map((file) => (
-                                <li key={file.name}>{file.name}</li>
-                                ))}
-                            </ul>
+                                <h5 key={file.name}>{file.name}</h5>
                             </div>
                         )}
                     </div>
-                    <button className="upload-button" onClick={onUpload}>Upload</button>
+                    <button className="upload-button" onClick={onSubmit}>Upload</button>
+                    <div>
+                      <progress value={uploadPercentage} max="100" />
+                      {uploadPercentage}% 
+                  </div>
                 </div>
             )}
         </>
