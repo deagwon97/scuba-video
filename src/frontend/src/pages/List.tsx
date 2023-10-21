@@ -26,9 +26,6 @@ const FileUpload: React.FC = () => {
       if (!file) return;
       const fileType = file.type
   
-      // const formData = new FormData();
-      // formData.append('file', file);
-  
       try {
         const objectKey = `${directoryName}/${file.name}`;
         console.log(fileType);
