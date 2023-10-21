@@ -56,9 +56,9 @@ body {
     display: flex;
     align-items: center;
     gap: 10px;
-  }
-  
-  .custom-file-upload {
+}
+
+.custom-file-upload {
     border: 1px solid #d1d1d1;  /* More subtle border color */
     display: inline-block;
     padding: 8px 16px;  /* Increased padding slightly */
@@ -66,17 +66,17 @@ body {
     background-color: #f1f1f1;  /* Lighter background */
     border-radius: 15px;  /* More rounded */
     transition: background-color 0.3s ease;  /* Slower transition for subtlety */
-  }
-  
-  .custom-file-upload:hover {
+}
+
+.custom-file-upload:hover {
     background-color: #e6e6e6;  /* Slightly darker hover effect */
-  }
-  
-  #file-upload {
-    display: none;
-  }
-  
-  .upload-button {
+}
+
+#file-upload {
+display: none;
+}
+
+.upload-button {
     padding: 8px 16px;  /* Increased padding slightly */
     background-color: #007AFF;  /* iOS blue color */
     color: white;
@@ -84,11 +84,45 @@ body {
     border-radius: 15px;  /* More rounded */
     cursor: pointer;
     transition: background-color 0.3s ease;  /* Slower transition */
-  }
+}
   
-  .upload-button:hover {
+.upload-button:hover {
     background-color: #005BC2;  /* Darker hover effect */
-  }
+}
+
+.progress-box {
+    width: 100%
+}
+.progress-percent{
+    width: 100%;
+    text-align: right;
+}
+
+progress {
+    width: 100%;
+    height: 20px;
+    margin-top: 10px;
+    appearance: none; /* 브라우저 기본 스타일 제거 */
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+progress[value]::-webkit-progress-bar {
+    background-color: #e0e0e0;
+    border-radius: 10px;
+}
+
+progress[value]::-webkit-progress-value {
+    background-color: #007AFF;
+    border-radius: 10px;
+    transition: width 0.1s ease-in-out; /* 부드러운 증가 효과 */
+}
+
+progress[value]::-moz-progress-bar {
+    background-color: #007AFF;
+    border-radius: 10px;
+    transition: width 0.1s ease-in-out; /* 부드러운 증가 효과 */
+}
 
 ul {
     list-style-type: none;
