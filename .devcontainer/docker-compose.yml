@@ -9,6 +9,8 @@ services:
     volumes:
       - ../:/workdir
     env_file:
-      - ../deploy/01go.env
+      - ../deploy/prod/01go.env
+    ports:
+      - "4891:80"
     stdin_open: true
     tty: true

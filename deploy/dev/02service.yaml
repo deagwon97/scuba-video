@@ -1,0 +1,10 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: scuba-video-dev
+spec:
+  clusterIP: None
+  ports:
+    - port: 4891
+      targetPort: 4891
+      name: scuba-video-dev

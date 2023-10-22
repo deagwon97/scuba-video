@@ -1,0 +1,10 @@
+kind: Endpoints
+apiVersion: v1
+metadata:
+  name: scuba-video-dev
+subsets:
+  - addresses:
+      - ip: 172.30.1.13
+    ports:
+      - port: 4891
+        name: scuba-video-dev

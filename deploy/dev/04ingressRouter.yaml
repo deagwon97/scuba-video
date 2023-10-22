@@ -1,0 +1,17 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: ingressroute-scuba-video-dev
+  annotations:
+    cert-manager.io/issuer: scuba-video-dev-issuer
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`dev.video.scuba.deagwon.com`)
+      kind: Rule
+      services:
+        - name: scuba-video-dev
+          port: 4891
+  tls:
+    secretName: scuba-video-dev-crt-secret

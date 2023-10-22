@@ -1,0 +1,11 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: scuba-video-dev-certificate
+spec:
+  secretName: scuba-video-dev-crt-secret
+  dnsNames:
+    - dev.video.scuba.deagwon.com
+  issuerRef:
+    name: scuba-video-dev-issuer
+    kind: Issuer
