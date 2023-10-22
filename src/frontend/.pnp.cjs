@@ -39,7 +39,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/react-dom", "npm:18.2.14"],\
             ["@types/react-router-dom", "npm:5.3.3"],\
             ["@types/testing-library__jest-dom", "npm:6.0.0"],\
-            ["axios", "npm:1.5.1"],\
+            ["axios", "npm:1.3.4"],\
             ["eslint", "npm:8.52.0"],\
             ["eslint-config-react-app", "virtual:95a5c19e4d2ad57e0157dd58a128b1e4c48499ec22c6379b636c4e2fdd6365dbd62f86dc166e192b49d3c0f52887e8f8b11ca145650a3a77e4477b61cc254bae#npm:7.0.1"],\
             ["eslint-plugin-react", "virtual:95a5c19e4d2ad57e0157dd58a128b1e4c48499ec22c6379b636c4e2fdd6365dbd62f86dc166e192b49d3c0f52887e8f8b11ca145650a3a77e4477b61cc254bae#npm:7.33.2"],\
@@ -6301,11 +6301,11 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["axios", [\
-        ["npm:1.5.1", {\
-          "packageLocation": "./.yarn/cache/axios-npm-1.5.1-6bc68e7d25-4444f06601.zip/node_modules/axios/",\
+        ["npm:1.3.4", {\
+          "packageLocation": "./.yarn/cache/axios-npm-1.3.4-01ea685178-7440edefcf.zip/node_modules/axios/",\
           "packageDependencies": [\
-            ["axios", "npm:1.5.1"],\
-            ["follow-redirects", "virtual:6bc68e7d25b7055a51c269c1fa5648c8246286db1b7949168396e2ffbde7ed58cf742783c99b4e376ba9a3e96fcc4d029f96bd1b532b606b5055545461060ec6#npm:1.15.3"],\
+            ["axios", "npm:1.3.4"],\
+            ["follow-redirects", "virtual:01ea6851789e289a01b796f810de178bac6d56a5415f6812163a8c36f06eaa64bb9993c92dc00329a5b2f936da5273a082f393404924adfde56b26b8e581ef5e#npm:1.15.3"],\
             ["form-data", "npm:4.0.0"],\
             ["proxy-from-env", "npm:1.1.0"]\
           ],\
@@ -9549,10 +9549,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "SOFT"\
         }],\
-        ["virtual:6bc68e7d25b7055a51c269c1fa5648c8246286db1b7949168396e2ffbde7ed58cf742783c99b4e376ba9a3e96fcc4d029f96bd1b532b606b5055545461060ec6#npm:1.15.3", {\
-          "packageLocation": "./.yarn/__virtual__/follow-redirects-virtual-ddb0bfe676/0/cache/follow-redirects-npm-1.15.3-ca69c47b72-584da22ec5.zip/node_modules/follow-redirects/",\
+        ["virtual:01ea6851789e289a01b796f810de178bac6d56a5415f6812163a8c36f06eaa64bb9993c92dc00329a5b2f936da5273a082f393404924adfde56b26b8e581ef5e#npm:1.15.3", {\
+          "packageLocation": "./.yarn/__virtual__/follow-redirects-virtual-954a6ea8f9/0/cache/follow-redirects-npm-1.15.3-ca69c47b72-584da22ec5.zip/node_modules/follow-redirects/",\
           "packageDependencies": [\
-            ["follow-redirects", "virtual:6bc68e7d25b7055a51c269c1fa5648c8246286db1b7949168396e2ffbde7ed58cf742783c99b4e376ba9a3e96fcc4d029f96bd1b532b606b5055545461060ec6#npm:1.15.3"],\
+            ["follow-redirects", "virtual:01ea6851789e289a01b796f810de178bac6d56a5415f6812163a8c36f06eaa64bb9993c92dc00329a5b2f936da5273a082f393404924adfde56b26b8e581ef5e#npm:1.15.3"],\
             ["@types/debug", null],\
             ["debug", null]\
           ],\
@@ -10307,7 +10307,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["http-proxy", "npm:1.18.1"],\
             ["eventemitter3", "npm:4.0.7"],\
-            ["follow-redirects", "virtual:6bc68e7d25b7055a51c269c1fa5648c8246286db1b7949168396e2ffbde7ed58cf742783c99b4e376ba9a3e96fcc4d029f96bd1b532b606b5055545461060ec6#npm:1.15.3"],\
+            ["follow-redirects", "virtual:01ea6851789e289a01b796f810de178bac6d56a5415f6812163a8c36f06eaa64bb9993c92dc00329a5b2f936da5273a082f393404924adfde56b26b8e581ef5e#npm:1.15.3"],\
             ["requires-port", "npm:1.0.0"]\
           ],\
           "linkType": "HARD"\
@@ -16231,7 +16231,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/react-dom", "npm:18.2.14"],\
             ["@types/react-router-dom", "npm:5.3.3"],\
             ["@types/testing-library__jest-dom", "npm:6.0.0"],\
-            ["axios", "npm:1.5.1"],\
+            ["axios", "npm:1.3.4"],\
             ["eslint", "npm:8.52.0"],\
             ["eslint-config-react-app", "virtual:95a5c19e4d2ad57e0157dd58a128b1e4c48499ec22c6379b636c4e2fdd6365dbd62f86dc166e192b49d3c0f52887e8f8b11ca145650a3a77e4477b61cc254bae#npm:7.0.1"],\
             ["eslint-plugin-react", "virtual:95a5c19e4d2ad57e0157dd58a128b1e4c48499ec22c6379b636c4e2fdd6365dbd62f86dc166e192b49d3c0f52887e8f8b11ca145650a3a77e4477b61cc254bae#npm:7.33.2"],\

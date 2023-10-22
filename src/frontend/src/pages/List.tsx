@@ -25,25 +25,42 @@ const FileUpload: React.FC = () => {
   
       if (!file) return;
       const fileType = file.type
+
+      const fileLength = file.size;
+
+      const onUploadProgress = (progressEvent: AxiosProgressEvent) => {
+        const { loaded, total } = progressEvent;
+        let percentCompleted = 0;
+        if (total) {
+          percentCompleted = Math.round( (loaded * 100) / total );
+          setUploadPercentage(percentCompleted);
+        }
+        if (!total) {
+          percentCompleted = 50;
+          setUploadPercentage(percentCompleted);
+        }
+      }
+
   
       try {
         const objectKey = `${directoryName}/${file.name}`;
-        console.log(fileType);
         const url = await onLostPutVideosPresignedUrl(uploadSecret, fileType, objectKey);
-        
-        await axios.put(url, file, {
-          headers: {
-            "Content-Type": fileType
-          },
-          onUploadProgress: (progressEvent: AxiosProgressEvent) => {
-            const { loaded, total } = progressEvent;
-            let percent = Math.floor((loaded * 100) / (total as number));
-            setUploadPercentage(percent);
-            if (percent === 100) {
-              setTimeout(() => setUploadPercentage(0), 1000);
-              window.location.reload();
-            }
-          },
+
+
+        const res = await axios.put(url, file,
+          {
+            headers: {
+              "Content-Type": fileType,
+              "Cache-Control": "no-cache",
+            },
+            onUploadProgress
+          }
+          ).then((res) => {
+          console.log(res);
+          setTimeout(() => {
+            setUploadPercentage(0)
+            window.location.reload();
+          }, 1000);
         });
       } catch (error) {
         console.error("There was an error uploading the file", error);
@@ -69,14 +86,12 @@ const FileUpload: React.FC = () => {
             {activateButton === true && (
                 <div className="upload-container">
                     <div className="files-container">
-                        <h4>폴더명: </h4>
                         <input type="text" 
-                                placeholder="Enter directory name" 
+                                placeholder="폴더명(날짜)" 
                                 value={directoryName}
                                 onChange={onDirectoryNameChange} />
                     </div>
                     <div className="files-container">
-                        <h4>암호: </h4>
                         <input type="password" 
                                 placeholder="Enter password" 
                                 value={uploadSecret}
@@ -108,8 +123,55 @@ const FileUpload: React.FC = () => {
     );
 }
 
+interface DeleteModalProps {
+  objectKey: string;
+  isOpen: boolean;
+  modalHandler: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const DeleteModal: React.FC<DeleteModalProps> = (
+  {
+    objectKey, 
+    isOpen, 
+    modalHandler
+  }
+) => {
+  const [isModalOpen, setIsModalOpen] = React.useState(isOpen);
+  const [secret, setSecret] = React.useState('');
+
+  React.useEffect(() => {
+    setIsModalOpen(isOpen)
+  }, [isOpen]);
+
+  const handleDelete = async () => {
+      await axios.delete(`/api/object?objectKey=${objectKey}`, { data: { secret: secret } });
+      alert('삭제되었습니다.');
+      modalHandler(false);
+      window.location.reload();
+  };
+
+  return (
+    <div className={isModalOpen ? 'modal open' : 'modal'}>
+      <div className={'modal-box'}>
+        <strong>{objectKey}</strong>
+        <input 
+          type="password"
+          placeholder="Enter secret"
+          value={secret}
+          onChange={(e) => setSecret(e.target.value)}
+        />
+        <button 
+          className="modal-close-button"
+          onClick={handleDelete}>삭제</button>
+      </div>
+    </div>
+  );
+};
+
 export const VideoList = () => {
+    const [isOpen, setIsOpen] = React.useState(false);
     const [videoList, setVideoList] = React.useState<null | DirVideos[]>();
+    const [selectedObectKey, setSelectedObjectKey] = React.useState<string>('');
     const callOnLoadVideoList = React.useCallback(async () => {
         const videoList = await onLoadVideoList();
         setVideoList(videoList);
@@ -125,17 +187,33 @@ export const VideoList = () => {
           <ul>
               {videoList && videoList.map((dirVideos, idx) => (
                   <li key={idx}>
-                      <strong>{dirVideos.dir}</strong>
                       <ul>
+                          <li className="video-link">
+                            <strong>{dirVideos.dir}</strong>
+                          </li>
                           {dirVideos.videos.map(video => (
-                              <Link key={video} to={`/video?object=${dirVideos.dir}/${video}`}>
-                                  <li>{video}</li>
-                              </Link>
+                            <div key={video} >
+                              <li className="video-link">
+                                <Link to={`/video?object=${dirVideos.dir}/${video}`}>
+                                    {video}
+                                </Link>
+                                <button className="delete-button" onClick={() => {
+                                  setIsOpen(!isOpen)
+                                  setSelectedObjectKey(`${dirVideos.dir}/${video}`)
+                                }}>x</button>
+                              </li>
+                              
+                            </div>
                           ))}
                       </ul>
                   </li>
               ))}
           </ul>
+          <DeleteModal
+              objectKey={selectedObectKey}
+              isOpen={isOpen}
+              modalHandler={setIsOpen}
+          />
       </div>
     </div>
   );
